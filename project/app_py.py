@@ -31,37 +31,45 @@ accident_occurred = st.selectbox("Accident Occurred", [0, 1])
 # ------------------ Prediction ------------------
 if st.button("Predict"):
 
-    expected_features = list(severity_model.feature_names_in_)
+    # -------- Severity Model Input --------
+    sev_features = severity_model.feature_names_in_
+    sev_dict = {f: 0 for f in sev_features}
 
-    input_dict = {}
+    if "temperature" in sev_dict:
+        sev_dict["temperature"] = temperature
+    if "humidity" in sev_dict:
+        sev_dict["humidity"] = humidity
+    if "vehicle_count" in sev_dict:
+        sev_dict["vehicle_count"] = vehicle_count
+    if "avg_speed" in sev_dict:
+        sev_dict["avg_speed"] = avg_speed
+    if "visibility" in sev_dict:
+        sev_dict["visibility"] = visibility
+    if "accident_occurred" in sev_dict:
+        sev_dict["accident_occurred"] = accident_occurred
 
-    for feature in expected_features:
-        input_dict[feature] = 0   # default value
+    severity_input = pd.DataFrame([sev_dict])
+    severity = severity_model.predict(severity_input)
 
-    # fill known inputs (names MUST match model)
-    if "temperature" in input_dict:
-        input_dict["temperature"] = temperature
+    # -------- Alert Model Input --------
+    alert_features = alert_model.feature_names_in_
+    alert_dict = {f: 0 for f in alert_features}
 
-    if "humidity" in input_dict:
-        input_dict["humidity"] = humidity
+    if "temperature" in alert_dict:
+        alert_dict["temperature"] = temperature
+    if "humidity" in alert_dict:
+        alert_dict["humidity"] = humidity
+    if "vehicle_count" in alert_dict:
+        alert_dict["vehicle_count"] = vehicle_count
+    if "avg_speed" in alert_dict:
+        alert_dict["avg_speed"] = avg_speed
+    if "visibility" in alert_dict:
+        alert_dict["visibility"] = visibility
+    if "accident_occurred" in alert_dict:
+        alert_dict["accident_occurred"] = accident_occurred
 
-    if "vehicle_count" in input_dict:
-        input_dict["vehicle_count"] = vehicle_count
-
-    if "avg_speed" in input_dict:
-        input_dict["avg_speed"] = avg_speed
-
-    if "visibility" in input_dict:
-        input_dict["visibility"] = visibility
-
-    if "accident_occurred" in input_dict:
-        input_dict["accident_occurred"] = accident_occurred
-
-    input_data = pd.DataFrame([input_dict])
-
-    severity = severity_model.predict(input_data)
-    alert = alert_model.predict(input_data)
+    alert_input = pd.DataFrame([alert_dict])
+    alert = alert_model.predict(alert_input)
 
     st.success(f"🚦 Accident Severity: {severity[0]}")
     st.warning(f"⚠️ Alert Status: {alert[0]}")
-
