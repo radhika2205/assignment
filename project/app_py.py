@@ -9,8 +9,8 @@ import os
 # ------------------ Load Models Safely ------------------
 BASE_DIR = os.path.dirname(__file__)
 
-severity_model_path = os.path.join(BASE_DIR, "accuracysevirity.pkl")
-alert_model_path = os.path.join(BASE_DIR, "aelertgenerated.pkl")
+severity_model_path = os.path.join(BASE_DIR, "accuracysevirity(1).pkl")
+alert_model_path = os.path.join(BASE_DIR, "aelertgenerated(1).pkl")
 
 with open(severity_model_path, "rb") as f:
     severity_model = pickle.load(f)
