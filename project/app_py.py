@@ -31,13 +31,20 @@ accident_occurred = st.selectbox("Accident Occurred", [0, 1])
 # ------------------ Prediction ------------------
 if st.button("Predict"):
 
-    # Model expects these exact features
     feature_names = severity_model.feature_names_in_
 
-    input_data = pd.DataFrame(
-        [[temperature, humidity, vehicle_count, avg_speed, visibility, accident_occurred]],
-        columns=feature_names
-    )
+    # create empty input with all required features = 0
+    input_dict = {feature: 0 for feature in feature_names}
+
+    # fill only available inputs
+    input_dict["temperature"] = temperature
+    input_dict["humidity"] = humidity
+    input_dict["vehicle_count"] = vehicle_count
+    input_dict["avg_speed"] = avg_speed
+    input_dict["visibility"] = visibility
+    input_dict["accident_occurred"] = accident_occurred
+
+    input_data = pd.DataFrame([input_dict])
 
     severity = severity_model.predict(input_data)
     alert = alert_model.predict(input_data)
