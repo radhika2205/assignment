@@ -14,8 +14,9 @@ import pandas as pd
 
 
 # Load Models
-severity_model = pickle.load(open("project/accuracyseverity.pkl", "rb"))
-alert_model = pickle.load(open("project/alertgenerated.pkl", "rb"))
+severity_model = pickle.load(open("accuracyseverity.pkl", "rb"))
+alert_model = pickle.load(open("alertgenerated.pkl", "rb"))
+
 
 
 st.title("🚨 Accident Prediction System")
