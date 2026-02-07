@@ -35,10 +35,10 @@ if st.button("Predict"):
         columns=[
             "temperature",
             "humidity",
-            "Vehicle_Count",
-            "Avg_Speed(km/h)",
-            "Visibility(m)",
-            "Accident_Occurred"
+            "vehicle_count",
+            "avg_speed",
+            "visibility",
+            "accident_occurred"
         ]
     )
 
